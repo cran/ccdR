@@ -1,8 +1,8 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  eval = (nchar(Sys.getenv('CCTE_API_KEY')) > 0)
+  eval = (nchar(Sys.getenv('CTX_API_KEY')) > 0)
 )
 library(httptest)
 start_vignette("1")
@@ -33,27 +33,27 @@ start_vignette("1")
 #    envir = asNamespace("knitr")
 #  )
 
-## ---- eval=FALSE--------------------------------------------------------------
+## ----eval=FALSE---------------------------------------------------------------
 #  if (!library(devtools, logical.return = TRUE)){
 #    install.packages(devtools)
 #    library(devtools)}
 #  
 #  devtools::install_github("USEPA/ccdR")
 
-## ---- echo = FALSE------------------------------------------------------------
-#  my_key <- ccte_key()
+## ----echo = FALSE-------------------------------------------------------------
+#  my_key <- ctx_key()
 
-## ---- eval = FALSE, api-key---------------------------------------------------
-#  my_key <- 'YOUR_CCTE_API_key'
+## ----eval = FALSE, api-key----------------------------------------------------
+#  my_key <- 'YOUR_CTX_API_key'
 
-## ---- register-ccte, eval=FALSE-----------------------------------------------
+## ----register-ccdr, eval=FALSE------------------------------------------------
 #  # This stores the key in the current session
 #  register_ccdr(key = '<YOUR API KEY>')
 #  
 #  # This stores the key across multiple sessions and only needs to be run once. If the key changes, rerun this with the new key.
 #  register_ccdr(key = '<YOUR API KEY>', write = TRUE)
 
-## ---- display-hide-key--------------------------------------------------------
+## ----display-hide-key---------------------------------------------------------
 #  # To show the API key
 #  ccdr_show_api_key()
 #  getOption('ccdr')$display_api_key
@@ -62,23 +62,23 @@ start_vignette("1")
 #  ccdr_hide_api_key()
 #  getOption('ccdr')$display_api_key
 
-## ---- ccte-key, eval = FALSE--------------------------------------------------
-#  ccte_key()
+## ----ctx-key, eval = FALSE----------------------------------------------------
+#  ctx_key()
 
-## ---- bpa-chem-details--------------------------------------------------------
+## ----bpa-chem-details---------------------------------------------------------
 #  bpa_details <- get_chemical_details(DTXSID = 'DTXSID7020182',
 #                                      API_key = my_key)
 #  bpa_details <- data.table::as.data.table(bpa_details)
 #  head(bpa_details)
 
-## ---- bpa-chem-info-----------------------------------------------------------
+## ----bpa-chem-info------------------------------------------------------------
 #  bpa_info <- get_chem_info(DTXSID = "DTXSID7020182",
 #                            API_key = my_key)
 #  bpa_info <- data.table::as.data.table(bpa_info)
 #  
 #  head(bpa_info)
 
-## ---- bpa-experimental--------------------------------------------------------
+## ----bpa-experimental---------------------------------------------------------
 #  bpa_info_experimental <- get_chem_info(DTXSID = "DTXSID7020182",
 #                                         type = 'experimental',
 #                                         API_key = my_key)
@@ -86,32 +86,32 @@ start_vignette("1")
 #  
 #  head(bpa_info_experimental)
 
-## ---- hazard------------------------------------------------------------------
+## ----hazard-------------------------------------------------------------------
 #  bpa_hazard <- get_hazard_by_dtxsid(DTXSID = 'DTXSID7020182',
 #                                     API_key = my_key)
 #  bpa_hazard <- data.table::as.data.table(bpa_hazard)
 #  head(bpa_hazard)
 
-## ---- human-hazard------------------------------------------------------------
+## ----human-hazard-------------------------------------------------------------
 #  bpa_human_hazard <- get_human_hazard_by_dtxsid(DTXSID = 'DTXSID7020182',
 #                                                 API_key = my_key)
 #  bpa_human_hazard <- data.table::as.data.table(bpa_human_hazard)
 #  head(bpa_human_hazard)
 
-## ---- ecotox-hazard-----------------------------------------------------------
+## ----ecotox-hazard------------------------------------------------------------
 #  bpa_eco_hazard <- get_ecotox_hazard_by_dtxsid(DTXSID = 'DTXSID7020182',
 #                                                API_key = my_key)
 #  bpa_eco_hazard <- data.table::as.data.table(bpa_eco_hazard)
 #  head(bpa_eco_hazard)
 
-## ---- bioactivity-dtxsid------------------------------------------------------
+## ----bioactivity-dtxsid-------------------------------------------------------
 #  bpa_bioactivity <- get_bioactivity_details(DTXSID = 'DTXSID7020182',
 #                                             API_key = my_key)
 #  
 #  bpa_bioactivity <- data.table::as.data.table(bpa_bioactivity)
 #  head(bpa_bioactivity)
 
-## ---- bioactivity-aeid--------------------------------------------------------
+## ----bioactivity-aeid---------------------------------------------------------
 #  assay_id_search <- get_bioactivity_details(AEID = 42,
 #                                             API_key = my_key)
 #  assay_id_search <- data.table::as.data.table(assay_id_search)
@@ -129,6 +129,6 @@ start_vignette("1")
 #    envir = asNamespace("knitr")
 #  )
 
-## ---- include=FALSE-----------------------------------------------------------
+## ----include=FALSE------------------------------------------------------------
 #  end_vignette()
 

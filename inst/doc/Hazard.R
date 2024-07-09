@@ -1,4 +1,4 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -134,11 +134,11 @@ ccl4_genetox_details[dtxsid == 'DTXSID0020153', .(Number = .N),
 ccl4_genetox_details[dtxsid == 'DTXSID0020153' & assayResult == 'positive', 
                      .(Number_of_assays = .N), by = .(assayType)][order(-Number_of_assays),]
 
-## ---- eval = FALSE--------------------------------------------------------------------------------
+## ----eval = FALSE---------------------------------------------------------------------------------
 #  ccl4_hazard <- get_hazard_by_dtxsid_batch(DTXSID = ccl4$dtxsid)
 #  natadb_hazard <- get_hazard_by_dtxsid_batch(DTXSID = natadb$dtxsid)
 
-## ---- eval = FALSE, fig.align='center',class.source="scroll-300",message=FALSE--------------------
+## ----eval = FALSE, fig.align='center',class.source="scroll-300",message=FALSE---------------------
 #  dim(ccl4_hazard)
 #  dim(natadb_hazard)
 #  colnames(ccl4_hazard)
@@ -158,6 +158,6 @@ registerS3method(
 
 options(old_options)
 
-## ---- include=FALSE-----------------------------------------------------------
+## ----include=FALSE------------------------------------------------------------
 end_vignette()
 

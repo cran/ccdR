@@ -1,4 +1,4 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -31,57 +31,72 @@ registerS3method(
   "knit_print", "data.table", knit_print.data.table,
   envir = asNamespace("knitr")
 )
+# helper function for printing
+printFormattedTable <- function(res_dt, widen = c()) {
+  DT::datatable(res_dt, style = 'bootstrap', class = 'table-bordered table-condensed', rownames = FALSE, options = list(scrollX = TRUE, autoWidth = TRUE, dom = 't', columnDefs = list(list(width = '1250px', targets = widen))))
+}
 
-# Remove this once Bioactivity goes public
-stg_bioactivity_server <- 'https://api-ccte-stg.epa.gov/bioactivity/data'
+## ----ccdR annotation by aeid, message=FALSE-----------------------------------
+assay <- get_annotation_by_aeid(AEID = "891")
 
-## ----ccdR annotation by aeid, message=FALSE, eval=FALSE-----------------------
-#  res_dt <- get_annotation_by_aeid(AEID = "891", API_key = apikey, Server = url)
-#  # optionally perform this unnest, apply names_repair = "unique" to give a unique column name
-#  # note - the gene column may be an array of multiple genes rather than just one, meaning this step may not work
-#  #res_dt <- res_dt |> tidyr::unnest_wider(col = c("citation", "gene", "assayList"), names_repair = "unique")
+## ----echo=FALSE---------------------------------------------------------------
+printFormattedTable(assay, c(4, 18, 33, 51)) # printed using custom formatted table
 
-## ---- echo=FALSE, eval=FALSE--------------------------------------------------
-#  printFormattedTable(head(res_dt), c(4, 18, 33, 51)) # printed using custom formatted table
+## ----ccdR annotation by aeid batch, message=FALSE-----------------------------
+assays <- get_annotation_by_aeid_batch(AEID = c(759,700,891))
+# return is in list form by aeid, convert to table for output
+assays <- data.table::rbindlist(assays)
+
+## ----ccdR-all-assays, message=FALSE, eval=FALSE-------------------------------
+#  printFormattedTable(assays, c(4, 18, 19, 33, 51)) # printed using custom formatted table
 
 ## ----ccdR all assays, message=FALSE, eval=FALSE-------------------------------
-#  res_dt <- get_all_assays(API_key = apikey, Server = url)
-#  # optionally perform the following unnest, apply names_repair = "unique" to give a unique column name
-#  # note - the gene column may be an array of multiple genes rather than just one, meaning this step may not work
-#  #res_dt <- res_dt |> tidyr::unnest_wider(col = c("citation", "gene", "assayList"), names_repair = "unique")
+#  all_assays <- get_all_assays()
 
-## ---- echo=FALSE, eval=FALSE--------------------------------------------------
-#  printFormattedTable(head(res_dt), c(4, 18, 19, 33, 51)) # printed using custom formatted table
+## ----ccdR summary by aeid, message=FALSE--------------------------------------
+summary <- get_bioactivity_summary(AEID = "891")
 
-## ----ccdR summary by aeid, message=FALSE, eval=FALSE--------------------------
-#  res_dt <- get_bioactivity_summary(AEID = "891", API_key = apikey, Server = url)
+## ----echo=FALSE---------------------------------------------------------------
+printFormattedTable(summary) # printed using custom formatted table
 
-## ---- echo=FALSE, eval=FALSE--------------------------------------------------
-#  printFormattedTable(head(res_dt), c()) # printed using custom formatted table
+## ----ccdR summary by aeid batch, message=FALSE--------------------------------
+summary <- get_bioactivity_summary_batch(AEID = c(759,700,891))
+summary <- data.table::rbindlist(summary)
 
-## ----ccdR data by spid, message=FALSE, results = FALSE, eval=FALSE------------
-#  res_dt <- get_bioactivity_details(SPID = "TP0001055F12", API_key = apikey, Server = paste0(url, "/data"))
+## ----echo=FALSE---------------------------------------------------------------
+printFormattedTable(summary) # printed using custom formatted table
 
-## ---- echo=FALSE, eval=FALSE--------------------------------------------------
-#  printFormattedTable(head(res_dt), c(ncol(res_dt)-2)) # printed using custom formatted table
+## ----ccdR data by spid, message=FALSE, results = FALSE------------------------
+# By spid
+spid_data <- get_bioactivity_details(SPID = 'TP0000904H05')
 
-## ----ccdR data by m4id, message=FALSE, results = FALSE, eval=FALSE------------
-#  res_dt <- get_bioactivity_details(m4id = 739695, API_key = apikey, Server = paste0(url, "/data"))
+## ----echo=FALSE---------------------------------------------------------------
+printFormattedTable(head(spid_data), c(ncol(spid_data)-2)) # printed using custom formatted table
 
-## ---- echo=FALSE, eval=FALSE--------------------------------------------------
-#  printFormattedTable(head(res_dt), c(ncol(res_dt)-2)) # printed using custom formatted table
+## ----ccdR data by m4id, message=FALSE, results = FALSE------------------------
+# By m4id
+m4id_data <- get_bioactivity_details(m4id = 739695)
 
-## ----ccdR data by dtxsid, message=FALSE, results = FALSE, eval=FALSE----------
-#  res_dt <- get_bioactivity_details(DTXSID = "DTXSID7020182", API_key = apikey, Server = paste0(url, "/data"))
+## ----echo=FALSE---------------------------------------------------------------
+printFormattedTable(m4id_data, c(ncol(m4id_data) - 2)) # printed using custom formatted table
 
-## ---- echo=FALSE, eval=FALSE--------------------------------------------------
-#  printFormattedTable(head(res_dt), c(ncol(res_dt)-2)) # printed using custom formatted table
+## ----ccdR data by dtxsid, message=FALSE, results = FALSE----------------------
+# By DTXSID
+dtxsid_data <- get_bioactivity_details(DTXSID = "DTXSID30944145")
 
-## ----ccdR data by aeid, message=FALSE, results = FALSE, eval=FALSE------------
-#  res_dt <- get_bioactivity_details(AEID = "891", API_key = apikey, Server = paste0(url, "/data"))
+## ----echo=FALSE---------------------------------------------------------------
+printFormattedTable(dtxsid_data, c(ncol(dtxsid_data)-2)) # printed using custom formatted table
 
-## ---- echo=FALSE, eval=FALSE--------------------------------------------------
-#  printFormattedTable(res_dt[205:210,], c(ncol(res_dt)-2)) # printed using custom formatted table
+## ----ccdR data by aeid, message=FALSE, results = FALSE------------------------
+# By aeid
+aeid_data <- get_bioactivity_details(AEID = 704)
+
+## ----echo=FALSE---------------------------------------------------------------
+printFormattedTable(head(aeid_data), c(ncol(aeid_data)-2)) # printed using custom formatted table
+
+## ----ccdR data by aeid batch, message=FALSE, eval=FALSE-----------------------
+#  aeid_data_batch <- get_bioactivity_details_batch(AEID = c(759,700,891))
+#  aeid_data_batch <- data.table::rbindlist(aeid_data_batch, fill = TRUE)
 
 ## ----breakdown, echo = FALSE, results = 'hide'--------------------------------
 # This chunk will be hidden in the final product. It serves to undo defining the
@@ -95,6 +110,6 @@ registerS3method(
   envir = asNamespace("knitr")
 )
 
-## ---- include=FALSE-----------------------------------------------------------
+## ----include=FALSE------------------------------------------------------------
 end_vignette()
 

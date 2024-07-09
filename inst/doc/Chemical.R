@@ -1,4 +1,4 @@
-## ---- include = FALSE---------------------------------------------------------
+## ----include = FALSE----------------------------------------------------------
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -12,7 +12,7 @@ if (!library(ccdR, logical.return = TRUE)){
 }
 old_options <- options("width")
 
-## ---- echo=FALSE, warning=FALSE-----------------------------------------------
+## ----echo=FALSE, warning=FALSE------------------------------------------------
 # Used to visualize data in a variety of plot designs
 library(ggplot2)
 library(gridExtra)
@@ -45,7 +45,9 @@ registerS3method(
 #  res_dt <- get_chemical_details(DTXCID = 'DTXCID30182')
 
 ## ----ccdR property range chemical, message=FALSE, eval=FALSE------------------
-#  res_dt <- get_chemical_by_property_range(start = 1.311, end = 1.313, property = 'Density')
+#  res_dt <- get_chemical_by_property_range(start = 1.311,
+#                                           end = 1.313,
+#                                           property = 'Density')
 
 ## ----ccdR info chemical, message=FALSE, eval=FALSE----------------------------
 #  res_dt <- get_chem_info(DTXSID = 'DTXSID7020182')
@@ -63,7 +65,8 @@ registerS3method(
 #  res_dt <- chemical_contains(word = 'DTXSID702018')
 
 ## ----ccdR mass range ms ready chemical, message=FALSE, eval=FALSE-------------
-#  res_dt <- get_msready_by_mass(start = 200.9, end = 200.95)
+#  res_dt <- get_msready_by_mass(start = 200.9,
+#                                end = 200.95)
 
 ## ----ccdR chemical formula ms ready chemical, message=FALSE, eval=FALSE-------
 #  res_dt <- get_msready_by_formula(formula = 'C16H24N2O5S')
@@ -113,7 +116,7 @@ ccl4 <- data.table::as.data.table(ccl4)
 natadb <- get_chemicals_in_list('NATADB')
 natadb <- data.table::as.data.table(natadb)
 
-## ---- eval=FALSE----------------------------------------------------------------------------------
+## ----eval=FALSE-----------------------------------------------------------------------------------
 #  dim(ccl4)
 #  dim(natadb)
 #  colnames(ccl4)
@@ -123,7 +126,7 @@ natadb <- data.table::as.data.table(natadb)
 ccl4_phys_chem <- get_chem_info_batch(ccl4$dtxsid)
 natadb_phys_chem <- get_chem_info_batch(natadb$dtxsid)
 
-## ---- eval=FALSE----------------------------------------------------------------------------------
+## ----eval=FALSE-----------------------------------------------------------------------------------
 #  dim(ccl4_phys_chem)
 #  colnames(ccl4_phys_chem)
 
@@ -185,14 +188,14 @@ natadb_vapor_all[, log_transform_mean_vapor_pressure :=
 natadb_vapor_grouped[, log_transform_mean_vapor_pressure := 
                        log(mean_vapor_pressure)]
 
-## ---- fig.align='center', echo=FALSE, eval=FALSE--------------------------------------------------
+## ----fig.align='center', echo=FALSE, eval=FALSE---------------------------------------------------
 #  ggplot(ccl4_vapor_all, aes(log_transform_mean_vapor_pressure)) +
 #    geom_boxplot() +
 #    coord_flip()
 #  ggplot(ccl4_vapor_grouped, aes(propType, log_transform_mean_vapor_pressure)) +
 #    geom_boxplot()
 
-## ---- fig.align='center', echo=FALSE, eval=FALSE--------------------------------------------------
+## ----fig.align='center', echo=FALSE, eval=FALSE---------------------------------------------------
 #  ggplot(natadb_vapor_all, aes(log_transform_mean_vapor_pressure)) +
 #    geom_boxplot() + coord_flip()
 #  ggplot(natadb_vapor_grouped, aes(propType, log_transform_mean_vapor_pressure)) +
@@ -313,6 +316,6 @@ registerS3method(
 
 options(old_options)
 
-## ---- include=FALSE-----------------------------------------------------------
+## ----include=FALSE------------------------------------------------------------
 end_vignette()
 
